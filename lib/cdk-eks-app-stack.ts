@@ -17,6 +17,6 @@ export class CdkEksAppStack extends cdk.Stack {
     /**
      * Code to add pods on eks cluster. All containers are define in MyChart
      */
-    cluster.addCdk8sChart('my-chart', new MyChart(new cdk8s.App(), 'MyChart'));
+    //cluster.addCdk8sChart('my-chart', new MyChart(new cdk8s.App(), 'MyChart'));
   }
 }
