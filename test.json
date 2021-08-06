@@ -1,0 +1,295 @@
+{
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+        "labels": {
+            "app": "demo-voting-app"
+        },
+        "name": "mychart-redisdeploy-deployment-fa1ab5c4"
+    },
+    "spec": {
+        "replicas": 2,
+        "selector": {
+            "matchLabels": {
+                "cdk8s.deployment": "MyChart-redisdeploy-641f172a"
+            }
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "cdk8s.deployment": "MyChart-redisdeploy-641f172a"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [],
+                        "image": "redis",
+                        "imagePullPolicy": "Always",
+                        "name": "main",
+                        "ports": [
+                            {
+                                "containerPort": 6379
+                            }
+                        ],
+                        "volumeMounts": []
+                    }
+                ],
+                "volumes": []
+            }
+        }
+    }
+},
+{
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+        "name": "redis"
+    },
+    "spec": {
+        "externalIPs": [],
+        "ports": [
+            {
+                "port": 6379,
+                "targetPort": 6379
+            }
+        ],
+        "selector": {
+            "cdk8s.deployment": "MyChart-redisdeploy-641f172a"
+        },
+        "type": "LoadBalancer"
+    }
+},
+{
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+        "labels": {
+            "app": "demo-voting-app"
+        },
+        "name": "mychart-postgresdeploy-deployment-e704ce35"
+    },
+    "spec": {
+        "replicas": 2,
+        "selector": {
+            "matchLabels": {
+                "cdk8s.deployment": "MyChart-postgresdeploy-1c87817d"
+            }
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "cdk8s.deployment": "MyChart-postgresdeploy-1c87817d"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [
+                            {
+                                "name": "POSTGRES_USER",
+                                "value": "postgres"
+                            },
+                            {
+                                "name": "POSTGRES_PASSWORD",
+                                "value": "postgres"
+                            }
+                        ],
+                        "image": "postgres",
+                        "imagePullPolicy": "Always",
+                        "name": "main",
+                        "ports": [
+                            {
+                                "containerPort": 5432
+                            }
+                        ],
+                        "volumeMounts": []
+                    }
+                ],
+                "volumes": []
+            }
+        }
+    }
+},
+{
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+        "name": "db"
+    },
+    "spec": {
+        "externalIPs": [],
+        "ports": [
+            {
+                "port": 5432,
+                "targetPort": 5432
+            }
+        ],
+        "selector": {
+            "cdk8s.deployment": "MyChart-postgresdeploy-1c87817d"
+        },
+        "type": "LoadBalancer"
+    }
+},
+{
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+        "labels": {
+            "app": "demo-voting-app"
+        },
+        "name": "mychart-votingappdeploy-deployment-098ff273"
+    },
+    "spec": {
+        "replicas": 2,
+        "selector": {
+            "matchLabels": {
+                "cdk8s.deployment": "MyChart-votingappdeploy-843e4b43"
+            }
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "cdk8s.deployment": "MyChart-votingappdeploy-843e4b43"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [],
+                        "image": "kodekloud/examplevotingapp_vote:v1",
+                        "imagePullPolicy": "Always",
+                        "name": "main",
+                        "ports": [
+                            {
+                                "containerPort": 80
+                            }
+                        ],
+                        "volumeMounts": []
+                    }
+                ],
+                "volumes": []
+            }
+        }
+    }
+},
+{
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+        "name": "mychart-votingappdeploy-service-pod-83b76010"
+    },
+    "spec": {
+        "externalIPs": [],
+        "ports": [
+            {
+                "port": 80,
+                "targetPort": 80
+            }
+        ],
+        "selector": {
+            "cdk8s.deployment": "MyChart-votingappdeploy-843e4b43"
+        },
+        "type": "LoadBalancer"
+    }
+},
+{
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+        "labels": {
+            "app": "demo-voting-app"
+        },
+        "name": "mychart-resultappdeploy-deployment-450c514b"
+    },
+    "spec": {
+        "replicas": 2,
+        "selector": {
+            "matchLabels": {
+                "cdk8s.deployment": "MyChart-resultappdeploy-adf80b07"
+            }
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "cdk8s.deployment": "MyChart-resultappdeploy-adf80b07"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [],
+                        "image": "kodekloud/examplevotingapp_result:v1",
+                        "imagePullPolicy": "Always",
+                        "name": "main",
+                        "ports": [
+                            {
+                                "containerPort": 80
+                            }
+                        ],
+                        "volumeMounts": []
+                    }
+                ],
+                "volumes": []
+            }
+        }
+    }
+},
+{
+    "apiVersion": "v1",
+    "kind": "Service",
+    "metadata": {
+        "name": "mychart-resultappdeploy-service-pod-e3f4ef11"
+    },
+    "spec": {
+        "externalIPs": [],
+        "ports": [
+            {
+                "port": 80,
+                "targetPort": 80
+            }
+        ],
+        "selector": {
+            "cdk8s.deployment": "MyChart-resultappdeploy-adf80b07"
+        },
+        "type": "LoadBalancer"
+    }
+},
+{
+    "apiVersion": "apps/v1",
+    "kind": "Deployment",
+    "metadata": {
+        "labels": {
+            "app": "demo-voting-app"
+        },
+        "name": "mychart-workerappdeploy-deployment-1620e902"
+    },
+    "spec": {
+        "replicas": 2,
+        "selector": {
+            "matchLabels": {
+                "cdk8s.deployment": "MyChart-workerappdeploy-d01535be"
+            }
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "cdk8s.deployment": "MyChart-workerappdeploy-d01535be"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "env": [],
+                        "image": "kodekloud/examplevotingapp_worker:v1",
+                        "imagePullPolicy": "Always",
+                        "name": "main",
+                        "ports": [],
+                        "volumeMounts": []
+                    }
+                ],
+                "volumes": []
+            }
+        }
+    }
+}
