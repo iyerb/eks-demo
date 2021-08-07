@@ -1,0 +1,872 @@
+Resources:
+  ckdeksclusterDefaultVpc302EAE0C:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/Resource
+  ckdeksclusterDefaultVpcPublicSubnet1Subnet01D69B7A:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/18
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: Public
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: kubernetes.io/role/elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1/Subnet
+  ckdeksclusterDefaultVpcPublicSubnet1RouteTableCE76C66C:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+      Tags:
+        - Key: kubernetes.io/role/elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1/RouteTable
+  ckdeksclusterDefaultVpcPublicSubnet1RouteTableAssociation3C7A3FF1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet1RouteTableCE76C66C
+      SubnetId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet1Subnet01D69B7A
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1/RouteTableAssociation
+  ckdeksclusterDefaultVpcPublicSubnet1DefaultRouteE12E980E:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet1RouteTableCE76C66C
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: ckdeksclusterDefaultVpcIGWB0E26022
+    DependsOn:
+      - ckdeksclusterDefaultVpcVPCGW72EAE575
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1/DefaultRoute
+  ckdeksclusterDefaultVpcPublicSubnet1EIP94E57548:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: kubernetes.io/role/elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1/EIP
+  ckdeksclusterDefaultVpcPublicSubnet1NATGatewayC95A1AA9:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - ckdeksclusterDefaultVpcPublicSubnet1EIP94E57548
+          - AllocationId
+      SubnetId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet1Subnet01D69B7A
+      Tags:
+        - Key: kubernetes.io/role/elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet1/NATGateway
+  ckdeksclusterDefaultVpcPublicSubnet2SubnetEB9E3715:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.64.0/18
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: Public
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: kubernetes.io/role/elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2/Subnet
+  ckdeksclusterDefaultVpcPublicSubnet2RouteTableB7414E6E:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+      Tags:
+        - Key: kubernetes.io/role/elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2/RouteTable
+  ckdeksclusterDefaultVpcPublicSubnet2RouteTableAssociation41799AB0:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet2RouteTableB7414E6E
+      SubnetId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet2SubnetEB9E3715
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2/RouteTableAssociation
+  ckdeksclusterDefaultVpcPublicSubnet2DefaultRoute09F6F23F:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet2RouteTableB7414E6E
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: ckdeksclusterDefaultVpcIGWB0E26022
+    DependsOn:
+      - ckdeksclusterDefaultVpcVPCGW72EAE575
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2/DefaultRoute
+  ckdeksclusterDefaultVpcPublicSubnet2EIPF5754628:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: kubernetes.io/role/elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2/EIP
+  ckdeksclusterDefaultVpcPublicSubnet2NATGatewayB93B6F8D:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - ckdeksclusterDefaultVpcPublicSubnet2EIPF5754628
+          - AllocationId
+      SubnetId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet2SubnetEB9E3715
+      Tags:
+        - Key: kubernetes.io/role/elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PublicSubnet2/NATGateway
+  ckdeksclusterDefaultVpcPrivateSubnet1SubnetEAC1E6CF:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.128.0/18
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: Private
+        - Key: aws-cdk:subnet-type
+          Value: Private
+        - Key: kubernetes.io/role/internal-elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet1
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet1/Subnet
+  ckdeksclusterDefaultVpcPrivateSubnet1RouteTableFEC30474:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+      Tags:
+        - Key: kubernetes.io/role/internal-elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet1
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet1/RouteTable
+  ckdeksclusterDefaultVpcPrivateSubnet1RouteTableAssociation0B9CD167:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: ckdeksclusterDefaultVpcPrivateSubnet1RouteTableFEC30474
+      SubnetId:
+        Ref: ckdeksclusterDefaultVpcPrivateSubnet1SubnetEAC1E6CF
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet1/RouteTableAssociation
+  ckdeksclusterDefaultVpcPrivateSubnet1DefaultRoute93CFE65B:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: ckdeksclusterDefaultVpcPrivateSubnet1RouteTableFEC30474
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet1NATGatewayC95A1AA9
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet1/DefaultRoute
+  ckdeksclusterDefaultVpcPrivateSubnet2Subnet429E294C:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.192.0/18
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: Private
+        - Key: aws-cdk:subnet-type
+          Value: Private
+        - Key: kubernetes.io/role/internal-elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet2
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet2/Subnet
+  ckdeksclusterDefaultVpcPrivateSubnet2RouteTable78AE9CD0:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+      Tags:
+        - Key: kubernetes.io/role/internal-elb
+          Value: "1"
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet2
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet2/RouteTable
+  ckdeksclusterDefaultVpcPrivateSubnet2RouteTableAssociation4FFB30A8:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: ckdeksclusterDefaultVpcPrivateSubnet2RouteTable78AE9CD0
+      SubnetId:
+        Ref: ckdeksclusterDefaultVpcPrivateSubnet2Subnet429E294C
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet2/RouteTableAssociation
+  ckdeksclusterDefaultVpcPrivateSubnet2DefaultRouteB13B49FB:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: ckdeksclusterDefaultVpcPrivateSubnet2RouteTable78AE9CD0
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: ckdeksclusterDefaultVpcPublicSubnet2NATGatewayB93B6F8D
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/PrivateSubnet2/DefaultRoute
+  ckdeksclusterDefaultVpcIGWB0E26022:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkEksAppStack/ckdekscluster/DefaultVpc
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/IGW
+  ckdeksclusterDefaultVpcVPCGW72EAE575:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+      InternetGatewayId:
+        Ref: ckdeksclusterDefaultVpcIGWB0E26022
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/DefaultVpc/VPCGW
+  ckdeksclusterRole17E9B976:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: eks.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/AmazonEKSClusterPolicy
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/Role/Resource
+  ckdeksclusterControlPlaneSecurityGroup3BC9959F:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: EKS Control Plane Security Group
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      VpcId:
+        Ref: ckdeksclusterDefaultVpc302EAE0C
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/ControlPlaneSecurityGroup/Resource
+  ckdeksclusterCreationRole745B5756:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::Join:
+                  - ""
+                  - - "arn:"
+                    - Ref: AWS::Partition
+                    - ":iam::"
+                    - Ref: AWS::AccountId
+                    - :root
+        Version: "2012-10-17"
+    DependsOn:
+      - ckdeksclusterDefaultVpcIGWB0E26022
+      - ckdeksclusterDefaultVpcPrivateSubnet1DefaultRoute93CFE65B
+      - ckdeksclusterDefaultVpcPrivateSubnet1RouteTableFEC30474
+      - ckdeksclusterDefaultVpcPrivateSubnet1RouteTableAssociation0B9CD167
+      - ckdeksclusterDefaultVpcPrivateSubnet1SubnetEAC1E6CF
+      - ckdeksclusterDefaultVpcPrivateSubnet2DefaultRouteB13B49FB
+      - ckdeksclusterDefaultVpcPrivateSubnet2RouteTable78AE9CD0
+      - ckdeksclusterDefaultVpcPrivateSubnet2RouteTableAssociation4FFB30A8
+      - ckdeksclusterDefaultVpcPrivateSubnet2Subnet429E294C
+      - ckdeksclusterDefaultVpcPublicSubnet1DefaultRouteE12E980E
+      - ckdeksclusterDefaultVpcPublicSubnet1EIP94E57548
+      - ckdeksclusterDefaultVpcPublicSubnet1NATGatewayC95A1AA9
+      - ckdeksclusterDefaultVpcPublicSubnet1RouteTableCE76C66C
+      - ckdeksclusterDefaultVpcPublicSubnet1RouteTableAssociation3C7A3FF1
+      - ckdeksclusterDefaultVpcPublicSubnet1Subnet01D69B7A
+      - ckdeksclusterDefaultVpcPublicSubnet2DefaultRoute09F6F23F
+      - ckdeksclusterDefaultVpcPublicSubnet2EIPF5754628
+      - ckdeksclusterDefaultVpcPublicSubnet2NATGatewayB93B6F8D
+      - ckdeksclusterDefaultVpcPublicSubnet2RouteTableB7414E6E
+      - ckdeksclusterDefaultVpcPublicSubnet2RouteTableAssociation41799AB0
+      - ckdeksclusterDefaultVpcPublicSubnet2SubnetEB9E3715
+      - ckdeksclusterDefaultVpc302EAE0C
+      - ckdeksclusterDefaultVpcVPCGW72EAE575
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/Resource/CreationRole/Resource
+  ckdeksclusterCreationRoleDefaultPolicy2C31011F:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: iam:PassRole
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - ckdeksclusterRole17E9B976
+                - Arn
+          - Action:
+              - ec2:DescribeSubnets
+              - ec2:DescribeRouteTables
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - eks:CreateCluster
+              - eks:DescribeCluster
+              - eks:DescribeUpdate
+              - eks:DeleteCluster
+              - eks:UpdateClusterVersion
+              - eks:UpdateClusterConfig
+              - eks:CreateFargateProfile
+              - eks:TagResource
+              - eks:UntagResource
+            Effect: Allow
+            Resource:
+              - "*"
+          - Action:
+              - eks:DescribeFargateProfile
+              - eks:DeleteFargateProfile
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - iam:GetRole
+              - iam:listAttachedRolePolicies
+            Effect: Allow
+            Resource: "*"
+          - Action: iam:CreateServiceLinkedRole
+            Effect: Allow
+            Resource: "*"
+          - Action: ec2:DescribeVpcs
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:"
+                  - Ref: AWS::Partition
+                  - ":ec2:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - :vpc/
+                  - Ref: ckdeksclusterDefaultVpc302EAE0C
+        Version: "2012-10-17"
+      PolicyName: ckdeksclusterCreationRoleDefaultPolicy2C31011F
+      Roles:
+        - Ref: ckdeksclusterCreationRole745B5756
+    DependsOn:
+      - ckdeksclusterDefaultVpcIGWB0E26022
+      - ckdeksclusterDefaultVpcPrivateSubnet1DefaultRoute93CFE65B
+      - ckdeksclusterDefaultVpcPrivateSubnet1RouteTableFEC30474
+      - ckdeksclusterDefaultVpcPrivateSubnet1RouteTableAssociation0B9CD167
+      - ckdeksclusterDefaultVpcPrivateSubnet1SubnetEAC1E6CF
+      - ckdeksclusterDefaultVpcPrivateSubnet2DefaultRouteB13B49FB
+      - ckdeksclusterDefaultVpcPrivateSubnet2RouteTable78AE9CD0
+      - ckdeksclusterDefaultVpcPrivateSubnet2RouteTableAssociation4FFB30A8
+      - ckdeksclusterDefaultVpcPrivateSubnet2Subnet429E294C
+      - ckdeksclusterDefaultVpcPublicSubnet1DefaultRouteE12E980E
+      - ckdeksclusterDefaultVpcPublicSubnet1EIP94E57548
+      - ckdeksclusterDefaultVpcPublicSubnet1NATGatewayC95A1AA9
+      - ckdeksclusterDefaultVpcPublicSubnet1RouteTableCE76C66C
+      - ckdeksclusterDefaultVpcPublicSubnet1RouteTableAssociation3C7A3FF1
+      - ckdeksclusterDefaultVpcPublicSubnet1Subnet01D69B7A
+      - ckdeksclusterDefaultVpcPublicSubnet2DefaultRoute09F6F23F
+      - ckdeksclusterDefaultVpcPublicSubnet2EIPF5754628
+      - ckdeksclusterDefaultVpcPublicSubnet2NATGatewayB93B6F8D
+      - ckdeksclusterDefaultVpcPublicSubnet2RouteTableB7414E6E
+      - ckdeksclusterDefaultVpcPublicSubnet2RouteTableAssociation41799AB0
+      - ckdeksclusterDefaultVpcPublicSubnet2SubnetEB9E3715
+      - ckdeksclusterDefaultVpc302EAE0C
+      - ckdeksclusterDefaultVpcVPCGW72EAE575
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/Resource/CreationRole/DefaultPolicy/Resource
+  ckdekscluster91BD07D9:
+    Type: Custom::AWSCDK-EKS-Cluster
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454
+          - Outputs.CdkEksAppStackawscdkawseksClusterResourceProviderframeworkonEvent12B1E5D2Arn
+      Config:
+        version: "1.18"
+        roleArn:
+          Fn::GetAtt:
+            - ckdeksclusterRole17E9B976
+            - Arn
+        resourcesVpcConfig:
+          subnetIds:
+            - Ref: ckdeksclusterDefaultVpcPublicSubnet1Subnet01D69B7A
+            - Ref: ckdeksclusterDefaultVpcPublicSubnet2SubnetEB9E3715
+            - Ref: ckdeksclusterDefaultVpcPrivateSubnet1SubnetEAC1E6CF
+            - Ref: ckdeksclusterDefaultVpcPrivateSubnet2Subnet429E294C
+          securityGroupIds:
+            - Fn::GetAtt:
+                - ckdeksclusterControlPlaneSecurityGroup3BC9959F
+                - GroupId
+          endpointPublicAccess: true
+          endpointPrivateAccess: true
+      AssumeRoleArn:
+        Fn::GetAtt:
+          - ckdeksclusterCreationRole745B5756
+          - Arn
+      AttributesRevision: 2
+    DependsOn:
+      - ckdeksclusterDefaultVpcIGWB0E26022
+      - ckdeksclusterDefaultVpcPrivateSubnet1DefaultRoute93CFE65B
+      - ckdeksclusterDefaultVpcPrivateSubnet1RouteTableFEC30474
+      - ckdeksclusterDefaultVpcPrivateSubnet1RouteTableAssociation0B9CD167
+      - ckdeksclusterDefaultVpcPrivateSubnet1SubnetEAC1E6CF
+      - ckdeksclusterDefaultVpcPrivateSubnet2DefaultRouteB13B49FB
+      - ckdeksclusterDefaultVpcPrivateSubnet2RouteTable78AE9CD0
+      - ckdeksclusterDefaultVpcPrivateSubnet2RouteTableAssociation4FFB30A8
+      - ckdeksclusterDefaultVpcPrivateSubnet2Subnet429E294C
+      - ckdeksclusterDefaultVpcPublicSubnet1DefaultRouteE12E980E
+      - ckdeksclusterDefaultVpcPublicSubnet1EIP94E57548
+      - ckdeksclusterDefaultVpcPublicSubnet1NATGatewayC95A1AA9
+      - ckdeksclusterDefaultVpcPublicSubnet1RouteTableCE76C66C
+      - ckdeksclusterDefaultVpcPublicSubnet1RouteTableAssociation3C7A3FF1
+      - ckdeksclusterDefaultVpcPublicSubnet1Subnet01D69B7A
+      - ckdeksclusterDefaultVpcPublicSubnet2DefaultRoute09F6F23F
+      - ckdeksclusterDefaultVpcPublicSubnet2EIPF5754628
+      - ckdeksclusterDefaultVpcPublicSubnet2NATGatewayB93B6F8D
+      - ckdeksclusterDefaultVpcPublicSubnet2RouteTableB7414E6E
+      - ckdeksclusterDefaultVpcPublicSubnet2RouteTableAssociation41799AB0
+      - ckdeksclusterDefaultVpcPublicSubnet2SubnetEB9E3715
+      - ckdeksclusterDefaultVpc302EAE0C
+      - ckdeksclusterDefaultVpcVPCGW72EAE575
+      - ckdeksclusterCreationRoleDefaultPolicy2C31011F
+      - ckdeksclusterCreationRole745B5756
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/Resource/Resource/Default
+  ckdeksclusterKubectlReadyBarrier48A1C097:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Value: aws:cdk:eks:kubectl-ready
+    DependsOn:
+      - ckdeksclusterCreationRoleDefaultPolicy2C31011F
+      - ckdeksclusterCreationRole745B5756
+      - ckdekscluster91BD07D9
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/KubectlReadyBarrier
+  ckdeksclusterMastersRoleBE3D5109:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              AWS:
+                Fn::Join:
+                  - ""
+                  - - "arn:"
+                    - Ref: AWS::Partition
+                    - ":iam::"
+                    - Ref: AWS::AccountId
+                    - :root
+        Version: "2012-10-17"
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/MastersRole/Resource
+  ckdeksclusterAwsAuthmanifestAA297AFC:
+    Type: Custom::AWSCDK-EKS-KubernetesResource
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B
+          - Outputs.CdkEksAppStackawscdkawseksKubectlProviderframeworkonEvent421BC079Arn
+      Manifest:
+        Fn::Join:
+          - ""
+          - - '[{"apiVersion":"v1","kind":"ConfigMap","metadata":{"name":"aws-auth","namespace":"kube-system"},"data":{"mapRoles":"[{\"rolearn\":\"'
+            - Fn::GetAtt:
+                - ckdeksclusterMastersRoleBE3D5109
+                - Arn
+            - \",\"username\":\"
+            - Fn::GetAtt:
+                - ckdeksclusterMastersRoleBE3D5109
+                - Arn
+            - \",\"groups\":[\"system:masters\"]},{\"rolearn\":\"
+            - Fn::GetAtt:
+                - ckdeksclusterNodegroupDefaultCapacityNodeGroupRole13AC6DB7
+                - Arn
+            - \",\"username\":\"system:node:{{EC2PrivateDNSName}}\",\"groups\":[\"system:bootstrappers\",\"system:nodes\"]}]","mapUsers":"[]","mapAccounts":"[]"}}]
+      ClusterName:
+        Ref: ckdekscluster91BD07D9
+      RoleArn:
+        Fn::GetAtt:
+          - ckdeksclusterCreationRole745B5756
+          - Arn
+    DependsOn:
+      - ckdeksclusterKubectlReadyBarrier48A1C097
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/AwsAuth/manifest/Resource/Default
+  ckdeksclusterNodegroupDefaultCapacityNodeGroupRole13AC6DB7:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/AmazonEKS_CNI_Policy
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/NodegroupDefaultCapacity/NodeGroupRole/Resource
+  ckdeksclusterNodegroupDefaultCapacityBD5821B6:
+    Type: AWS::EKS::Nodegroup
+    Properties:
+      ClusterName:
+        Ref: ckdekscluster91BD07D9
+      NodeRole:
+        Fn::GetAtt:
+          - ckdeksclusterNodegroupDefaultCapacityNodeGroupRole13AC6DB7
+          - Arn
+      Subnets:
+        - Ref: ckdeksclusterDefaultVpcPrivateSubnet1SubnetEAC1E6CF
+        - Ref: ckdeksclusterDefaultVpcPrivateSubnet2Subnet429E294C
+      AmiType: AL2_x86_64
+      ForceUpdateEnabled: true
+      InstanceTypes:
+        - m5.large
+      ScalingConfig:
+        DesiredSize: 2
+        MaxSize: 2
+        MinSize: 2
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/ckdekscluster/NodegroupDefaultCapacity/Resource
+  awscdkawseksClusterResourceProviderNestedStackawscdkawseksClusterResourceProviderNestedStackResource9827C454:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL:
+        Fn::Join:
+          - ""
+          - - https://s3.
+            - Ref: AWS::Region
+            - "."
+            - Ref: AWS::URLSuffix
+            - /
+            - Ref: AssetParameters04be6b4f3eaa883022cd8085f7e80ed032680674243dac86b694c7c62a56c49eS3BucketBEDA5D42
+            - /
+            - Fn::Select:
+                - 0
+                - Fn::Split:
+                    - "||"
+                    - Ref: AssetParameters04be6b4f3eaa883022cd8085f7e80ed032680674243dac86b694c7c62a56c49eS3VersionKey924F4FBC
+            - Fn::Select:
+                - 1
+                - Fn::Split:
+                    - "||"
+                    - Ref: AssetParameters04be6b4f3eaa883022cd8085f7e80ed032680674243dac86b694c7c62a56c49eS3VersionKey924F4FBC
+      Parameters:
+        referencetoCdkEksAppStackckdeksclusterCreationRole64A4292DArn:
+          Fn::GetAtt:
+            - ckdeksclusterCreationRole745B5756
+            - Arn
+        referencetoCdkEksAppStackAssetParameters50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1S3BucketF8511AD2Ref:
+          Ref: AssetParameters50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1S3Bucket36C546E0
+        referencetoCdkEksAppStackAssetParameters50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1S3VersionKeyAD4AB125Ref:
+          Ref: AssetParameters50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1S3VersionKey85C003F9
+        referencetoCdkEksAppStackAssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketB0B61FBBRef:
+          Ref: AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketEAC9DD43
+        referencetoCdkEksAppStackAssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3VersionKeyFEF07912Ref:
+          Ref: AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3VersionKeyDD9AE9E7
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/@aws-cdk--aws-eks.ClusterResourceProvider.NestedStack/@aws-cdk--aws-eks.ClusterResourceProvider.NestedStackResource
+  awscdkawseksKubectlProviderNestedStackawscdkawseksKubectlProviderNestedStackResourceA7AEBA6B:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL:
+        Fn::Join:
+          - ""
+          - - https://s3.
+            - Ref: AWS::Region
+            - "."
+            - Ref: AWS::URLSuffix
+            - /
+            - Ref: AssetParameters55a8a116a6b63d069e5412ec35d7b4c336e35c6d9eb2a5a12889cc5d6db23f4cS3BucketDD722B81
+            - /
+            - Fn::Select:
+                - 0
+                - Fn::Split:
+                    - "||"
+                    - Ref: AssetParameters55a8a116a6b63d069e5412ec35d7b4c336e35c6d9eb2a5a12889cc5d6db23f4cS3VersionKeyA2B478C9
+            - Fn::Select:
+                - 1
+                - Fn::Split:
+                    - "||"
+                    - Ref: AssetParameters55a8a116a6b63d069e5412ec35d7b4c336e35c6d9eb2a5a12889cc5d6db23f4cS3VersionKeyA2B478C9
+      Parameters:
+        referencetoCdkEksAppStackckdekscluster154F04D4Arn:
+          Fn::GetAtt:
+            - ckdekscluster91BD07D9
+            - Arn
+        referencetoCdkEksAppStackckdeksclusterCreationRole64A4292DArn:
+          Fn::GetAtt:
+            - ckdeksclusterCreationRole745B5756
+            - Arn
+        referencetoCdkEksAppStackAssetParametersb7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2S3Bucket306C604ERef:
+          Ref: AssetParametersb7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2S3Bucket9ABBD5A2
+        referencetoCdkEksAppStackAssetParametersb7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2S3VersionKey2E1A24A7Ref:
+          Ref: AssetParametersb7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2S3VersionKey40FF2C4A
+        referencetoCdkEksAppStackckdeksclusterDefaultVpcPrivateSubnet1SubnetAA7F3D8BRef:
+          Ref: ckdeksclusterDefaultVpcPrivateSubnet1SubnetEAC1E6CF
+        referencetoCdkEksAppStackckdeksclusterDefaultVpcPrivateSubnet2Subnet6EE30250Ref:
+          Ref: ckdeksclusterDefaultVpcPrivateSubnet2Subnet429E294C
+        referencetoCdkEksAppStackckdekscluster154F04D4ClusterSecurityGroupId:
+          Fn::GetAtt:
+            - ckdekscluster91BD07D9
+            - ClusterSecurityGroupId
+        referencetoCdkEksAppStackAssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketB0B61FBBRef:
+          Ref: AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketEAC9DD43
+        referencetoCdkEksAppStackAssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3VersionKeyFEF07912Ref:
+          Ref: AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3VersionKeyDD9AE9E7
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/@aws-cdk--aws-eks.KubectlProvider.NestedStack/@aws-cdk--aws-eks.KubectlProvider.NestedStackResource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Modules: aws-cdk=1.115.0,@aws-cdk/assets=1.69.0,@aws-cdk/aws-applicationautoscaling=1.69.0,@aws-cdk/aws-autoscaling=1.69.0,@aws-cdk/aws-autoscaling-common=1.69.0,@aws-cdk/aws-cloudwatch=1.69.0,@aws-cdk/aws-codeguruprofiler=1.69.0,@aws-cdk/aws-ec2=1.69.0,@aws-cdk/aws-eks=1.69.0,@aws-cdk/aws-elasticloadbalancingv2=1.69.0,@aws-cdk/aws-events=1.69.0,@aws-cdk/aws-iam=1.69.0,@aws-cdk/aws-kms=1.69.0,@aws-cdk/aws-lambda=1.69.0,@aws-cdk/aws-logs=1.69.0,@aws-cdk/aws-s3=1.69.0,@aws-cdk/aws-s3-assets=1.69.0,@aws-cdk/aws-sqs=1.69.0,@aws-cdk/aws-ssm=1.69.0,@aws-cdk/cloud-assembly-schema=1.69.0,@aws-cdk/core=1.69.0,@aws-cdk/custom-resources=1.69.0,@aws-cdk/cx-api=1.69.0,@aws-cdk/region-info=1.69.0,jsii-runtime=node.js/v12.16.3
+    Metadata:
+      aws:cdk:path: CdkEksAppStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Outputs:
+  ckdeksclusterConfigCommandE04DCF13:
+    Value:
+      Fn::Join:
+        - ""
+        - - "aws eks update-kubeconfig --name "
+          - Ref: ckdekscluster91BD07D9
+          - " --region "
+          - Ref: AWS::Region
+          - " --role-arn "
+          - Fn::GetAtt:
+              - ckdeksclusterMastersRoleBE3D5109
+              - Arn
+  ckdeksclusterGetTokenCommand5DD9E553:
+    Value:
+      Fn::Join:
+        - ""
+        - - "aws eks get-token --cluster-name "
+          - Ref: ckdekscluster91BD07D9
+          - " --region "
+          - Ref: AWS::Region
+          - " --role-arn "
+          - Fn::GetAtt:
+              - ckdeksclusterMastersRoleBE3D5109
+              - Arn
+  eksclustername:
+    Value:
+      Ref: ckdekscluster91BD07D9
+Parameters:
+  AssetParameters50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1S3Bucket36C546E0:
+    Type: String
+    Description: S3 bucket for asset "50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1"
+  AssetParameters50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1S3VersionKey85C003F9:
+    Type: String
+    Description: S3 key for asset version "50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1"
+  AssetParameters50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1ArtifactHash32F5D823:
+    Type: String
+    Description: Artifact hash for asset "50e10880d134a01b440991fc77d217f39f01c2d56945215ee9a3b81187c6f3b1"
+  AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketEAC9DD43:
+    Type: String
+    Description: S3 bucket for asset "c691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49c"
+  AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3VersionKeyDD9AE9E7:
+    Type: String
+    Description: S3 key for asset version "c691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49c"
+  AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cArtifactHash627DAAA7:
+    Type: String
+    Description: Artifact hash for asset "c691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49c"
+  AssetParametersb7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2S3Bucket9ABBD5A2:
+    Type: String
+    Description: S3 bucket for asset "b7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2"
+  AssetParametersb7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2S3VersionKey40FF2C4A:
+    Type: String
+    Description: S3 key for asset version "b7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2"
+  AssetParametersb7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2ArtifactHashE86B38C7:
+    Type: String
+    Description: Artifact hash for asset "b7d8a9750f8bfded8ac76be100e3bee1c3d4824df006766110d023f42952f5c2"
+  AssetParameters04be6b4f3eaa883022cd8085f7e80ed032680674243dac86b694c7c62a56c49eS3BucketBEDA5D42:
+    Type: String
+    Description: S3 bucket for asset "04be6b4f3eaa883022cd8085f7e80ed032680674243dac86b694c7c62a56c49e"
+  AssetParameters04be6b4f3eaa883022cd8085f7e80ed032680674243dac86b694c7c62a56c49eS3VersionKey924F4FBC:
+    Type: String
+    Description: S3 key for asset version "04be6b4f3eaa883022cd8085f7e80ed032680674243dac86b694c7c62a56c49e"
+  AssetParameters04be6b4f3eaa883022cd8085f7e80ed032680674243dac86b694c7c62a56c49eArtifactHashD4C13C7F:
+    Type: String
+    Description: Artifact hash for asset "04be6b4f3eaa883022cd8085f7e80ed032680674243dac86b694c7c62a56c49e"
+  AssetParameters55a8a116a6b63d069e5412ec35d7b4c336e35c6d9eb2a5a12889cc5d6db23f4cS3BucketDD722B81:
+    Type: String
+    Description: S3 bucket for asset "55a8a116a6b63d069e5412ec35d7b4c336e35c6d9eb2a5a12889cc5d6db23f4c"
+  AssetParameters55a8a116a6b63d069e5412ec35d7b4c336e35c6d9eb2a5a12889cc5d6db23f4cS3VersionKeyA2B478C9:
+    Type: String
+    Description: S3 key for asset version "55a8a116a6b63d069e5412ec35d7b4c336e35c6d9eb2a5a12889cc5d6db23f4c"
+  AssetParameters55a8a116a6b63d069e5412ec35d7b4c336e35c6d9eb2a5a12889cc5d6db23f4cArtifactHash21CB8BA0:
+    Type: String
+    Description: Artifact hash for asset "55a8a116a6b63d069e5412ec35d7b4c336e35c6d9eb2a5a12889cc5d6db23f4c"
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+
