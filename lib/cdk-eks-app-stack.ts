@@ -14,6 +14,8 @@ export class CdkEksAppStack extends cdk.Stack {
       version: eks.KubernetesVersion.V1_18,
     });
 
+    new cdk.CfnOutput(this, "eks-cluster-name",{value: cluster.clusterName})
+
     /**
      * Code to add pods on eks cluster. All containers are define in MyChart
      */
